@@ -1,26 +1,48 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+    console.log('Extension "Kibo" activée');
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "kibo" is now active!');
+    let disposable = vscode.commands.registerCommand('KibotAssistant.generateCommit', () => {
+        // Cette commande est déclenchée lorsque l'utilisateur souhaite générer un commit.
+        // Vous pouvez insérer ici le code pour générer le message du commit.
+        const gitExtension = vscode.extensions.getExtension('vscode.git');
+        if (!gitExtension) {
+            vscode.window.showErrorMessage('L\'extension Git n\'est pas installée.');
+            return;
+        }
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('kibo.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Kibo!');
-	});
+        gitExtension.activate().then(() => {
+            const git = gitExtension.exports;
+            const api = git.getAPI(1);
+            const repository = api.repositories[0]; // Prend le premier dépôt Git
 
-	context.subscriptions.push(disposable);
+            if (!repository) {
+                vscode.window.showWarningMessage('Aucun dépôt Git actif trouvé.');
+                return;
+            }
+
+            const stagedChanges = repository.state.indexChanges;
+            if (stagedChanges.length === 0) {
+                vscode.window.showInformationMessage('Aucun changement en attente de commit.');
+                return;
+            }
+
+            const commitMessage = generateCommitMessage(stagedChanges);
+            repository.inputBox.value = commitMessage;
+        });
+    });
+
+    context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+    console.log('Extension "Kibo" désactivée');
+}
+
+function generateCommitMessage(stagedChanges: any[]): string {
+    // Ici, vous pouvez personnaliser la logique de génération du message de commit
+    // en fonction des fichiers et des changements en attente de commit (staged changes).
+    // Retournez le message généré sous forme de chaîne.
+    return 'Commit automatique : modifications dans les fichiers en attente de commit.';
+}

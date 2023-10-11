@@ -1,7 +1,7 @@
 {
   "name": "kibo",
   "displayName": "Kibo",
-  "description": "Kibo AutoGenerate commit” est une extension pour Visual Studio Code qui facilite le processus de création de commits Git en vous permettant de générer rapidement des messages de commit personnalisés pour vos modifications de code.",
+  "description": "Kibo AutoGenerate commit is an extension for Visual Studio Code that simplifies the process of creating Git commits by allowing you to quickly generate customized commit messages for your code.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.83.0"
@@ -14,8 +14,9 @@
   "contributes": {
     "commands": [
       {
-        "command": "kibo.helloWorld",
-        "title": "Hello World"
+        "command": "KibotAssistant.generateCommit",
+        "title": "Kibo Generate Commit"
+        
       }
     ]
   },
