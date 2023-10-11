@@ -4,8 +4,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Extension "Kibo" activée');
 
     let disposable = vscode.commands.registerCommand('KibotAssistant.generateCommit', () => {
-        // Cette commande est déclenchée lorsque l'utilisateur souhaite générer un commit.
-        // Vous pouvez insérer ici le code pour générer le message du commit.
+		// Vérifier si l'extension Git est installée
         const gitExtension = vscode.extensions.getExtension('vscode.git');
         if (!gitExtension) {
             vscode.window.showErrorMessage('L\'extension Git n\'est pas installée.');
@@ -30,6 +29,9 @@ export function activate(context: vscode.ExtensionContext) {
 
             const commitMessage = generateCommitMessage(stagedChanges);
             repository.inputBox.value = commitMessage;
+
+            // Ouvrir automatiquement la vue Source Control
+            vscode.commands.executeCommand('workbench.view.scm');
         });
     });
 
@@ -41,8 +43,6 @@ export function deactivate() {
 }
 
 function generateCommitMessage(stagedChanges: any[]): string {
-    // Ici, vous pouvez personnaliser la logique de génération du message de commit
-    // en fonction des fichiers et des changements en attente de commit (staged changes).
-    // Retournez le message généré sous forme de chaîne.
+    // On prend les changements en attente de commit
     return 'Commit automatique : modifications dans les fichiers en attente de commit.';
 }
