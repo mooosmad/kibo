@@ -1,6 +1,13 @@
 # kibo README
 
-This is the README for your extension "kibo". After writing up a brief description, we recommend including the following sections.
+Kibo AutoGenerate Commit" is an extension for Visual Studio Code that streamlines the process of creating Git commits by allowing you to quickly generate customized commit messages for your code changes.
+
+Key Features:
+
+Select text in the code editor and generate a commit message based on your selection.
+Enter a personalized commit message with a user-friendly prompt.
+Seamless integration with Git for committing changes.
+Simplify your development workflow by managing your Git commits directly within Visual Studio Code with "Kibo AutoGenerate.
 
 ## Features
 
